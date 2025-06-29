@@ -1,0 +1,15 @@
+{
+    "name": "GIT from scratch",
+    "version": "1.0.0",
+    "description": "GIT from scratch",
+    "main": "main.js",
+    "scripts": {
+        "dev": "node app/main.js"
+    },
+    "keywords": [
+        "GIT"
+    ],
+    "author": "rohan gore",
+    "license": "MIT",
+    "dependencies": {}
+}
