@@ -1,7 +1,11 @@
 GIT from Scratch - nodejs 🏗️ WIP
 
+#### What is .git
+
 ref ~ https://blog.meain.io/2023/what-is-in-dot-git/
-git 
+
+#### Github
+
 ref ~ https://github.com/codecrafters-io/build-your-own-git/tree/main/starter_templates/javascript/code
 
 ## 📖 Overview
@@ -160,17 +164,3 @@ The hashes should match exactly if implementation is correct!
 - **Binary data safety is crucial** - improper handling corrupts data and breaks Git compatibility
 - **Compression and efficient storage** - Git uses zlib compression to minimize storage space
 - **Simple but powerful design** - Complex Git features are built on these fundamental object operations
-
-## 🚀 Next Steps
-
-Future enhancements could include:
-
-- Tree objects (directory structures)
-- Commit objects (snapshots with metadata)
-- Branch and tag management
-- Merge and diff algorithms
-- Remote repository operations
-
-## 📚 Resources
-
-The implementation references and learning materials used in this project provide excellent deep-dives into Git internals and object storage mechanisms.
