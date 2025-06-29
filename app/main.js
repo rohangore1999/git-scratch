@@ -4,7 +4,7 @@ const path = require("path");
 const GitClient = require("./git/client");
 
 // Commands
-const { CatFileCommand } = require("./git/commands");
+const { CatFileCommand, HashOjectCommand } = require("./git/commands");
 
 const gitClient = new GitClient();
 
@@ -17,6 +17,10 @@ switch (command) {
 
   case "cat-file":
     handleCatFileCommand();
+    break;
+
+  case "hash-object":
+    handleHashObjectCommand();
     break;
 
   default:
@@ -38,11 +42,31 @@ function createGitDirectory() {
 }
 
 function handleCatFileCommand() {
-  "eg: command --> git cat-file -p <filename>";
+  // eg: command --> git cat-file -p <filename>
 
   const flag = process.argv[3];
   const commitSHA = process.argv[4];
 
   const command = new CatFileCommand(flag, commitSHA);
+  gitClient.run(command);
+}
+
+function handleHashObjectCommand() {
+  // eg: command --> git hash-object package.json [just log the hash]
+  // eg: command --> git hash-object -w package.json [store the file object/hash[0,2]/hash[2,..]]
+
+  let flag = process.argv[3];
+  let filePath = process.argv[4];
+
+  if (!filePath) {
+    // user can pass '-w' or not (optional)
+    filePath = flag;
+    flag = null;
+  }
+
+  console.log({ flag, filePath });
+
+  const command = new HashOjectCommand(flag, filePath);
+
   gitClient.run(command);
 }
