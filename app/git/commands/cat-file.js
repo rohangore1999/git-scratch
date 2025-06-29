@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const zlib = require("zlib");
 
 class CatFileCommand {
   constructor(flag, commitSHA) {
@@ -34,9 +35,22 @@ class CatFileCommand {
 
         if (!fs.existsSync(completePath)) {
           // path doest exist throw error
-          console.log("hello")
           throw new Error(`Not a valid object name ${commitSHA}`);
         }
+
+        // read file content
+        const fileContent = fs.readFileSync(completePath);
+
+        // decompress the file
+        const outputBuffer = zlib.inflateSync(fileContent);
+
+        // buffer to string
+        const output = outputBuffer.toString();
+
+        // need on standard output
+        process.stdout.write(output);
+
+        break;
     }
   }
 }

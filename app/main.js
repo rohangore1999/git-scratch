@@ -6,8 +6,6 @@ const GitClient = require("./git/client");
 // Commands
 const { CatFileCommand } = require("./git/commands");
 
-console.error("Logs from your program will appear here!");
-
 const gitClient = new GitClient();
 
 const command = process.argv[2];
@@ -46,7 +44,5 @@ function handleCatFileCommand() {
   const commitSHA = process.argv[4];
 
   const command = new CatFileCommand(flag, commitSHA);
-  command.execute()
-
-//   console.log({ flag, commitSHA });
+  gitClient.run(command);
 }
