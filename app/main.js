@@ -8,6 +8,8 @@ const {
   CatFileCommand,
   HashOjectCommand,
   LsTreeCommand,
+  WriteTreeCommand,
+  CommitTreeCommand,
 } = require("./git/commands");
 
 const gitClient = new GitClient();
@@ -28,7 +30,15 @@ switch (command) {
     break;
 
   case "ls-tree":
-    handleLsTreeeCommand();
+    handleLsTreeCommand();
+    break;
+
+  case "write-tree":
+    handleWriteTreeCommand();
+    break;
+
+  case "commit-tree":
+    handleCommitTreeCommand();
     break;
 
   default:
@@ -36,6 +46,7 @@ switch (command) {
 }
 
 function createGitDirectory() {
+  //  { recursive: true } --> to create all missing directories if the are missing
   fs.mkdirSync(path.join(process.cwd(), ".git"), { recursive: true });
   fs.mkdirSync(path.join(process.cwd(), ".git", "objects"), {
     recursive: true,
@@ -79,7 +90,7 @@ function handleHashObjectCommand() {
   gitClient.run(command);
 }
 
-function handleLsTreeeCommand() {
+function handleLsTreeCommand() {
   // eg: command --> git ls-tree <hash>
   // eg: command --> git ls-tree --name-only <hash>
 
@@ -87,12 +98,32 @@ function handleLsTreeeCommand() {
   let sha = process.argv[4];
 
   if (!sha) {
-    // user can pass '-w' or not (optional)
+    // user can pass '--name-only' or not (optional)
     sha = flag;
     flag = null;
   }
 
   const command = new LsTreeCommand(flag, sha);
+
+  gitClient.run(command);
+}
+
+function handleWriteTreeCommand() {
+  // eg: command --> git write-tree // output: it will create hash of current working dir file/folder and store in .git/objects
+
+  const command = new WriteTreeCommand();
+
+  gitClient.run(command);
+}
+
+function handleCommitTreeCommand() {
+  // eg git commit-tree 1234<hash> -m<flag> <commit_msg>
+  // input: git commit-tree <tree_sha> -p <commit_sha> -m <message>
+  let treeSHA = process.argv[3];
+  let commitSHA = process.argv[5];
+  let commitMessage = process.argv[7];
+
+  const command = new CommitTreeCommand(treeSHA, commitSHA, commitMessage);
 
   gitClient.run(command);
 }

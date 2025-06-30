@@ -23,10 +23,10 @@ class HashOjectCommand {
     const fileContents = fs.readFileSync(filePath);
     const fileLength = fileContents.length;
 
-    // create blob
+    // create blob -> github default structure
     const header = `blob ${fileLength}\0`;
     const blob = Buffer.concat([Buffer.from(header), fileContents]);
-    // Note: if we directly did this`blob ${fileLength}\0${fileContents}`, js will convert the fileContent to string which may corrupt the binary data.
+    // Note: if we directly do this `blob ${fileLength}\0${fileContents}`, js will convert the fileContent to string which may corrupt the binary data.
     // Buffer.concat(): preserves the binary data, \0 will be treated as null byte
 
     // calc hash
@@ -52,7 +52,7 @@ class HashOjectCommand {
       // compress file (using zlib) and write
       const compressedData = zlib.deflateSync(blob);
 
-      // create file and add compressed data
+      // create file with compressedData and add into completeFolderPath
       fs.writeFileSync(path.join(completeFolderPath, file), compressedData);
     }
 
